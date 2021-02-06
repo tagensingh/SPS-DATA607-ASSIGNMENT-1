@@ -1,0 +1,47 @@
+# CUNY    SPS    DATA607
+## Assignment 1
+### Tage N Singh
+
+#### The article pertaining to this dataset is shown below - Congress's Age Problem ( 1947 - 2013)
+
+#### https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/
+
+```{r,dataimport}
+
+# Imorting the data from Github
+
+congress <- read.csv(file = 'https://raw.githubusercontent.com/tagensingh/SPS-DATA607-ASSIGNMENT-1/main/congress-terms.csv')
+
+#summary(congress)
+head(congress)
+
+```
+```{r,column-select,message = FALSE,warning = FALSE}
+
+library(datasets)
+library(ggplot2)
+library(dplyr)
+library("tidyverse")
+
+class(congress)
+
+# Creating a subset of the original data with selected columns
+
+congress2 <- congress [c(1,2,4,6,9,10,13)]
+
+# Cleaning up the headers
+
+names(congress2)[1] <- "Congress_No"
+names(congress2)[2] <- "Chamber"
+names(congress2)[3] <- "First_Name"
+names(congress2)[4] <- "Last_Name"
+names(congress2)[5] <- "State"
+names(congress2)[6] <- "Party"
+names(congress2)[7] <- "Age"
+
+head(congress2)
+
+```
+
+
+

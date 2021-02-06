@@ -1,0 +1,95 @@
+---
+title: "CUNY    SPS    DATA607    Assignment 1"
+author: "Tage N Singh"
+date: "`r Sys.Date()`"
+output: html_document
+---
+\n
+
+### ASSIGNMENT OVERVIEW
+
+#### The article pertaining to this dataset is shown below - Congress's Age Problem ( 1947 - 2013)
+#### It provides a statistical perspective of a New York Times article published in April 2014
+#### The main theme of the article is that the members of congress are considerably older than the constituents they represent
+
+#### We will present some preliminary statistical analysis
+
+##### Please use the link below to view the full article
+
+#### https://fivethirtyeight.com/features/both-republicans-and-democrats-have-an-age-problem/
+
+```{r,dataimport}
+
+# Importing the data from Github
+
+congress <- read.csv(file = 'https://raw.githubusercontent.com/tagensingh/SPS-DATA607-ASSIGNMENT-1/main/congress-terms.csv')
+
+#summary(congress)
+head(congress)
+
+```
+```{r,column-select,message = FALSE,warning = FALSE}
+
+library(datasets)
+library(ggplot2)
+library(dplyr)
+library("tidyverse")
+
+# Confirming the data frame 
+class(congress)
+
+# Creating a subset of the original data with selected columns
+
+congress2 <- congress [c(1,2,4,6,9,10,13)]
+
+# Cleaning up the headers
+
+names(congress2)[1] <- "Congress_No"
+names(congress2)[2] <- "Chamber"
+names(congress2)[3] <- "First_Name"
+names(congress2)[4] <- "Last_Name"
+names(congress2)[5] <- "State"
+names(congress2)[6] <- "Party"
+names(congress2)[7] <- "Age"
+
+head(congress2)
+
+#summary(congress2)
+
+```
+
+```{r,congress_age,message = FALSE,warning = FALSE}
+
+congress_age <- congress2[c("Congress_No","Age")]%>% group_by(Congress_No)
+
+head(congress_age)
+
+#class(congress_age)
+
+congress_meanage <-aggregate(x = congress_age$Age,                # Specify data column
+                    by = list(congress_age$Congress_No),              # Specify group indicator
+                    FUN = mean)
+
+
+```
+
+```{r,graphical representation}
+
+colnames(congress_meanage)
+
+names(congress_meanage)[1] <- "Congress_No"
+names(congress_meanage)[2] <- "Average_Age"
+
+head(congress_meanage)
+
+ggplot(congress_meanage, aes(x=Congress_No, y= Average_Age )) +
+  geom_line()
+
+```
+
+\n
+### Conclusion/Observation
+
+#### For the period studied (1947-2013), the average age of congress people generally increased
+#### Except for the period 1994 to 1998 when the average age decreased
+
